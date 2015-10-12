@@ -11,9 +11,14 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=lo
 
 @app.route('/check', methods=['POST'])
 def check():
-    vector = checkProximity(request.json["word"])
-    return jsonify(vector)
+	vector = checkProximity(request.json["word"])
+	return jsonify(vector)
 
+@app.route('/query', methods=['GET'])
+def query():
+	searchword = request.args.get('word', '')
+	vector = checkProximity(searchword)
+	return jsonify(vector)
 
 def loadModel(filename):
     return gensim.models.Word2Vec.load_word2vec_format(filename, binary=True)
