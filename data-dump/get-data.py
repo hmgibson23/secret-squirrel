@@ -8,8 +8,6 @@ import requests, json, sys, argparse
 CAPI="http://content.guardianapis.com/search"
 TOTAL_PAGES=None
 
-#API_KEY="qnrhxxuaed4eapyk2xx5bysw"
-
 # set up the command line args
 parser = argparse.ArgumentParser(description="./get-data.py")
 parser.add_argument('--api-key', type=str, dest="api_key",
