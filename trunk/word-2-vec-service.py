@@ -16,17 +16,22 @@ def check():
 
 @app.route('/query', methods=['GET'])
 def query():
-	searchword = request.args.get('word', '')
-	vector = checkProximity(searchword)
-	return jsonify(vector)
+    searchword = request.args.get('word', '')
+    notwords = request.args.get('not', '')
+    vector = checkProximity(searchword, notwords)
+    return jsonify(vector)
+
+@app.route('/add', methods=['GET'])
+def add():
+    vector = add(['woman','king'],['man'])
+    return jsonify(vector)
 
 def loadModel(filename):
     return gensim.models.Word2Vec.load_word2vec_format(filename, binary=True)
 
-def checkProximity(phrase):
-    return MODEL.most_similar(positive=phrase.split())
-
-
+def checkProximity(phrase,notwords):
+    return MODEL.most_similar(positive=phrase.split(),negative=notwords.split())
+ 
 def setup(argv):
     if len(argv) != 2:
         print("./word-2-vec-service <training-set>")
